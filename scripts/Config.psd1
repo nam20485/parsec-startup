@@ -53,6 +53,30 @@
         ValidateInstallation = $true
     }
     
+    # .NET SDK Configuration
+    DotNetSDK = @{
+        # Version to install ("Latest" or specific version like "9.0.100")
+        Version = "Latest"
+        
+        # Custom download path (leave empty to use temp directory)
+        DownloadPath = ""
+        
+        # Installation arguments
+        InstallArgs = "/quiet /norestart"  # Silent installation without restart
+        
+        # Timeout for download (in seconds)
+        TimeoutSeconds = 600
+        
+        # Whether to clean up installer after installation
+        CleanupInstaller = $true
+        
+        # Whether to validate installation success
+        ValidateInstallation = $true
+        
+        # Whether to add .NET to system PATH (usually handled by installer)
+        AddToPath = $true
+    }
+    
     # Logging Configuration
     Logging = @{
         # Enable detailed logging
@@ -86,7 +110,8 @@
         ExecutionOrder = @(
             "01-storage-spaces.ps1",
             "02-windows-updates.ps1", 
-            "03-parsec.ps1"
+            "03-parsec.ps1",
+            "04-dotnet-sdk9.ps1"
         )
         
         # Features to skip (by filename or feature name)

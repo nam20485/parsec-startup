@@ -5,6 +5,7 @@ This repository contains a modular PowerShell framework for automating VM setup 
 ## Overview
 
 The modular setup framework provides:
+
 1. **Automatic Feature Discovery**: Scans the features directory for PowerShell scripts
 2. **Feature-based Installation**: Each feature is self-contained with its own prerequisites and installation logic
 3. **Flexible Execution**: Run all features, specific features, or exclude certain features
@@ -16,23 +17,32 @@ The modular setup framework provides:
 The framework includes these built-in features:
 
 ### 01-storage-spaces.ps1
+
 - **Purpose**: Creates a striped virtual disk with two volumes using Windows Storage Spaces
 - **Requirements**: Administrator privileges, Storage Spaces support, minimum 2 physical disks
 - **Output**: Two formatted volumes for data and applications
 
 ### 02-windows-updates.ps1  
+
 - **Purpose**: Downloads and installs all available Windows updates
 - **Requirements**: Administrator privileges, internet connectivity, Windows Update service
 - **Output**: Fully updated Windows system (may require reboot)
 
 ### 03-parsec.ps1
+
 - **Purpose**: Downloads and installs Parsec for remote desktop access
 - **Requirements**: Administrator privileges, internet connectivity
 - **Output**: Installed and configured Parsec application
 
+### 04-dotnet-sdk9.ps1
+
+- **Purpose**: Downloads and installs the latest .NET SDK 9
+- **Requirements**: Administrator privileges, internet connectivity
+- **Output**: Installed .NET SDK 9 with development tools and runtime
+
 ## File Structure
 
-```
+```text
 scripts/
 ├── startup.ps1              # Main modular startup script
 ├── Config.psd1             # Configuration file
@@ -41,7 +51,8 @@ scripts/
 └── features/
     ├── 01-storage-spaces.ps1
     ├── 02-windows-updates.ps1
-    └── 03-parsec.ps1
+    ├── 03-parsec.ps1
+    └── 04-dotnet-sdk9.ps1
 ```
 
 ## Usage
@@ -49,6 +60,7 @@ scripts/
 ### Basic Usage
 
 Run all features in order:
+
 ```powershell
 # Navigate to the scripts directory
 cd "C:\Users\nmiller\src\github\nam20485\parsec-startup\scripts"
@@ -197,6 +209,12 @@ Edit `Config.psd1` to customize behavior:
         # ... other Parsec settings
     }
     
+    DotNetSDK = @{
+        Version = "9.0.100"  # or "Latest"
+        InstallArgs = "/quiet /norestart"
+        # ... other .NET SDK settings
+    }
+    
     Logging = @{
         LogFile = "C:\Logs\vm-setup.log"
         ShowTimestamps = $true
@@ -275,6 +293,7 @@ Use the test script to validate the environment:
 ```
 
 This will check:
+
 - Prerequisites for all features
 - Available hardware resources
 - Network connectivity
