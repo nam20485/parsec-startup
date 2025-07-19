@@ -65,15 +65,16 @@ function Install-Feature {
         Volume1Label = "Data"
         Volume2Label = "Applications"
         Volume1SizePercent = 27
+        Volume1FileSystem = "ReFS"
+        Volume2FileSystem = "NTFS"
+        MinimumDisks = 2
     }
     
     # Merge with provided config
     $featureConfig = $defaultConfig.Clone()
     if ($Config.Storage) {
         foreach ($key in $Config.Storage.Keys) {
-            if ($featureConfig.ContainsKey($key)) {
-                $featureConfig[$key] = $Config.Storage[$key]
-            }
+            $featureConfig[$key] = $Config.Storage[$key]
         }
     }
     
