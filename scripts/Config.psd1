@@ -11,7 +11,11 @@
         # Volume settings
         Volume1Label = "Data"
         Volume2Label = "Applications"
-        Volume1SizePercent = 50  # Percentage of total disk space for first volume
+        Volume1SizePercent = 27  # Percentage of total disk space for first volume
+        
+        # Filesystem settings
+        Volume1FileSystem = "ReFS"  # ReFS for source code and data integrity
+        Volume2FileSystem = "NTFS"  # NTFS for application compatibility
         
         # Minimum number of disks required for striping
         MinimumDisks = 2
@@ -77,6 +81,24 @@
         AddToPath = $true
     }
     
+    # Source Directory Configuration
+    SourceDirectory = @{
+        # Directory name to create on the data volume
+        DirectoryName = "src"
+        
+        # Whether to add Windows Defender exclusion for the directory
+        AddDefenderExclusion = $true
+        
+        # Whether to create the directory if it doesn't exist
+        CreateIfMissing = $true
+        
+        # Additional subdirectories to create under src
+        Subdirectories = @()
+        
+        # File permissions to set (empty to use defaults)
+        Permissions = ""
+    }
+    
     # Logging Configuration
     Logging = @{
         # Enable detailed logging
@@ -111,7 +133,8 @@
             "01-storage-spaces.ps1",
             "02-windows-updates.ps1", 
             "03-parsec.ps1",
-            "04-dotnet-sdk9.ps1"
+            "04-dotnet-sdk9.ps1",
+            "05-source-directory.ps1"
         )
         
         # Features to skip (by filename or feature name)

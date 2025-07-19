@@ -64,7 +64,7 @@ function Install-Feature {
         VirtualDiskName = "VMStripedDisk"
         Volume1Label = "Data"
         Volume2Label = "Applications"
-        Volume1SizePercent = 50
+        Volume1SizePercent = 27
     }
     
     # Merge with provided config
@@ -108,12 +108,12 @@ function Install-Feature {
         # Create first partition
         Write-Host "Creating first volume: $($featureConfig.Volume1Label) ($([math]::Round($volume1Size / 1GB, 2)) GB)" -ForegroundColor Cyan
         $partition1 = New-Partition -DiskNumber $disk.Number -Size $volume1Size
-        $volume1 = Format-Volume -Partition $partition1 -FileSystem NTFS -NewFileSystemLabel $featureConfig.Volume1Label -Confirm:$false
+        $volume1 = Format-Volume -Partition $partition1 -FileSystem $featureConfig.Volume1FileSystem -NewFileSystemLabel $featureConfig.Volume1Label -Confirm:$false
         
         # Create second partition with remaining space
         Write-Host "Creating second volume: $($featureConfig.Volume2Label)" -ForegroundColor Cyan
         $partition2 = New-Partition -DiskNumber $disk.Number -UseMaximumSize
-        $volume2 = Format-Volume -Partition $partition2 -FileSystem NTFS -NewFileSystemLabel $featureConfig.Volume2Label -Confirm:$false
+        $volume2 = Format-Volume -Partition $partition2 -FileSystem $featureConfig.Volume2FileSystem -NewFileSystemLabel $featureConfig.Volume2Label -Confirm:$false
         
         # Assign drive letters if not automatically assigned
         if (-not $volume1.DriveLetter) {
